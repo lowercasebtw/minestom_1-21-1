@@ -110,7 +110,7 @@ public final class LoginListener {
                 MojangCrypt.decryptUsingKey(MojangAuth.getKeyPair().getPrivate(), packet.encryptedVerifyToken()));
 
         if (verificationFailed) {
-            //MinecraftServer.LOGGER.error("Encryption failed for {}", loginUsername);
+            MinecraftServer.LOGGER.error("Encryption failed for {}", loginUsername);
             connection.kick(ENCRYPTION_FAILED);
             return;
         }
@@ -119,7 +119,7 @@ public final class LoginListener {
         final byte[] digestedData = MojangCrypt.digestData("", MojangAuth.getKeyPair().getPublic(), secretKey);
         if (digestedData == null) {
             // Incorrect key, probably because of the client
-            //MinecraftServer.LOGGER.error("Connection {} failed initializing encryption.", socketConnection.getRemoteAddress());
+            MinecraftServer.LOGGER.error("Connection {} failed initializing encryption.", socketConnection.getRemoteAddress());
             connection.kick(ENCRYPTION_FAILED);
             return;
         }
@@ -135,7 +135,7 @@ public final class LoginListener {
                     .replaceFirst("(\\w{8})(\\w{4})(\\w{4})(\\w{4})(\\w{12})", "$1-$2-$3-$4-$5"));
             final String profileName = gameProfileJson.get("name").getAsString();
 
-            //MinecraftServer.LOGGER.info("UUID of player {} is {}", profileName, profileUUID);
+            MinecraftServer.LOGGER.info("UUID of player {} is {}", profileName, profileUUID);
             List<GameProfile.Property> propertyList = new ArrayList<>();
             for (JsonElement element : gameProfileJson.get("properties").getAsJsonArray()) {
                 JsonObject object = element.getAsJsonObject();
@@ -188,7 +188,7 @@ public final class LoginListener {
             messageProcessor.handleResponse(packet.messageId(), packet.data());
         } catch (Throwable t) {
             connection.kick(ERROR_DURING_LOGIN);
-            //MinecraftServer.LOGGER.error("Error handling Login Plugin Response", t);
+            MinecraftServer.LOGGER.error("Error handling Login Plugin Response", t);
             MinecraftServer.getExceptionManager().handleException(t);
         }
     }
