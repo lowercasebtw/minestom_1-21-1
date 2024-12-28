@@ -14,10 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
 import org.jetbrains.annotations.Unmodifiable;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 record BlockImpl(@NotNull Registry.BlockEntry registry,
                  long propertiesArray,
@@ -34,7 +31,7 @@ record BlockImpl(@NotNull Registry.BlockEntry registry,
     private static final int MAX_VALUES = 1 << BITS_PER_INDEX;
 
     // Block state -> block object
-    private static final ObjectArray<Block> BLOCK_STATE_MAP = ObjectArray.singleThread();
+    private static final Map<Integer, Block> BLOCK_STATE_MAP = new HashMap<>();// ObjectArray.singleThread();
     // Block id -> valid property keys (order is important for lookup)
     private static final ObjectArray<PropertyType[]> PROPERTIES_TYPE = ObjectArray.singleThread();
     // Block id -> Map<Properties, Block>
@@ -88,7 +85,9 @@ record BlockImpl(@NotNull Registry.BlockEntry registry,
                         var mainProperties = Registry.Properties.fromMap(new MergedMap<>(stateOverride, properties.asMap()));
                         final BlockImpl block = new BlockImpl(Registry.block(namespace, mainProperties),
                                 propertiesValue, null, null);
-                        BLOCK_STATE_MAP.set(block.stateId(), block);
+
+                        BLOCK_STATE_MAP.put(block.stateId(), block);
+
                         propertiesKeys[propertiesOffset] = propertiesValue;
                         blocksValues[propertiesOffset++] = block;
                     }
@@ -101,7 +100,7 @@ record BlockImpl(@NotNull Registry.BlockEntry registry,
 
     static {
         PROPERTIES_TYPE.trim();
-        BLOCK_STATE_MAP.trim();
+//        BLOCK_STATE_MAP.trim();
         POSSIBLE_STATES.trim();
     }
 
