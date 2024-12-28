@@ -205,7 +205,9 @@ public final class PacketWriting {
                     try {
                         buffer.resize(newSize);
                     } catch (Exception exception) {
-                        System.err.println("among us");
+                        // test
+                        System.out.println("Minecraft: Minecraft Edition");
+                        break;
                     }
                 } else {
                     // At least one packet has been written
