@@ -214,7 +214,7 @@ public class DynamicChunk extends Chunk {
 
         Block id;
         try {
-            id = Block.fromStateId((short) blockStateId);
+            id = Block.fromStateId(blockStateId);
         } catch (Exception exception) {
             id = Block.AIR;
             System.err.println("BLOCK WITH STATE ID: " + blockStateId);
