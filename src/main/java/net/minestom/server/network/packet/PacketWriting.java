@@ -202,13 +202,7 @@ public final class PacketWriting {
                 if (written < minWrite) {
                     // Try again with a bigger buffer
                     final long newSize = Math.min(buffer.capacity() * 2, ServerFlag.MAX_PACKET_SIZE);
-                    try {
-                        buffer.resize(newSize);
-                    } catch (Exception exception) {
-                        // test
-                        System.out.println("Minecraft: Minecraft Edition");
-                        break;
-                    }
+                    buffer.resize(newSize);
                 } else {
                     // At least one packet has been written
                     // Not worth resizing to fit more, we'll try again next flush

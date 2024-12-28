@@ -211,7 +211,16 @@ public class DynamicChunk extends Chunk {
         final Section section = getSectionAt(y);
         final int blockStateId = section.blockPalette()
                 .get(globalToSectionRelative(x), globalToSectionRelative(y), globalToSectionRelative(z));
-        return Objects.requireNonNullElse(Block.fromStateId((short) blockStateId), Block.AIR);
+
+        Block id;
+        try {
+            id = Block.fromStateId((short) blockStateId);
+        } catch (Exception exception) {
+            id = Block.AIR;
+            System.err.println("BLOCK WITH STATE ID: " + blockStateId);
+        }
+
+        return Objects.requireNonNullElse(id, Block.AIR);
     }
 
     @Override
