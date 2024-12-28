@@ -198,15 +198,17 @@ final class NetworkBufferImpl implements NetworkBuffer {
     public void resize(long newSize) {
         assertDummy();
         assertReadOnly();
-        if (newSize < capacity) throw new IllegalArgumentException("New size is smaller than the current size");
-        if (newSize == capacity) {
-//            throw new IllegalArgumentException("New size is the same as the current size");
-            return;
+        if (newSize < capacity) {
+            throw new IllegalArgumentException("New size is smaller than the current size");
         }
+
+        // throw new IllegalArgumentException("New size is the same as the current size");
+//        if (newSize != capacity) {
         final long newAddress = UNSAFE.reallocateMemory(address, newSize);
         this.address = newAddress;
         this.capacity = newSize;
         this.state.address.set(newAddress);
+//        }
     }
 
     @Override
