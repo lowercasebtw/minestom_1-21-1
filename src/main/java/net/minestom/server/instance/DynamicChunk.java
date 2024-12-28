@@ -218,6 +218,7 @@ public class DynamicChunk extends Chunk {
         } catch (Exception exception) {
             id = Block.AIR;
             System.err.println("BLOCK WITH STATE ID: " + blockStateId);
+            System.err.println(exception);
         }
 
         return Objects.requireNonNullElse(id, Block.AIR);
